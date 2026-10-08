@@ -61,14 +61,39 @@
 
 ---
 
-## 能力
+## 技术栈与项目印证
 
-| 维度 | 体现 |
-| --- | --- |
-| **统计方法** | 特征筛选（SIS / SCAD）、惩罚回归、生存分析、因果推断（DML / 因果森林 / CATE）、回归诊断、抽样设计、列联表与效应量、多重比较校正（BH）、聚类、SEM |
-| **编程** | R（Rcpp C++ 扩展、20 核并行、内存峰值控制）· Python（pandas / statsmodels / scikit-learn / PyTorch / EconML）· SQL（MySQL 8.0，显式 DDL 与窗口函数）· LaTeX · SPSS / AMOS |
-| **工程与可复现** | 脚本编号化且自包含、随机种子固定、结果落盘 CSV、代码与结论分离、Git / GitHub |
-| **诚实标注的空白** | 尚无实习经历；Docker / 服务部署、API 与 RAG / Agent 工作流、A/B 实验设计与 SQL 留存取数尚未实操——这些都不在技能栏里，正在补。 |
+每一项都指到具体仓库与文件，并按实际用到的深度分级。
+
+### 语言与工具
+
+| 技术 | 用在哪个项目 | 实际用到的深度 | 代码 |
+| --- | --- | --- | --- |
+| **R** | GCor-SIS 论文；破产预警；市场调查作图 | 从零实现筛选算法；写 Rcpp C++ 扩展（`cppFunction` / `NumericMatrix`）；`makeCluster(20)` + `foreach %dopar%` 跑 20 次数据拆分反射 | [GCor_SIS_REDS_MDS.R](https://github.com/Yei1y/Company-Bankruptcy-Prediction/blob/main/scripts/GCor_SIS_REDS_MDS.R) |
+| **Python** | 房产回归、DML、电商漏斗、THUCNews、影评 | pandas / numpy 数据管线 → statsmodels 计量诊断 → scikit-learn / PyTorch 建模，均为完整脚本而非 notebook 片段 | [scripts/](https://github.com/Yei1y/beijing-housing-regression/tree/main/scripts) |
+| **SQL / MySQL 8.0** | 电商漏斗 | 显式 DDL 建表；24 条查询，含窗口函数算各环节占比；全国计算机二级（MySQL） | [code/](https://github.com/Yei1y/user-behavior-funnel-analysis/tree/main/code) |
+| **SPSS / AMOS** | 市场调查 | 问卷信效度全套（Cronbach's α = 0.983、KMO = 0.977、Bartlett）+ SEM 建模（RMSEA 0.030）+ 简单斜率图 | 委托项目，底稿涉密 |
+| **LaTeX** | DML、房产回归、THUCNews | 中文论文排版（XeLaTeX + ctexart）、公式推导、三线表、代码附录 | — |
+| **Git** | 全部项目 | 五个仓库带 `requirements.txt`，脚本编号化且自包含，结果落盘后可复跑 | — |
+
+### 方法与它解决的问题
+
+| 方法 | 项目 | 用来解决什么 |
+| --- | --- | --- |
+| **高维特征筛选**（SIS、GCor-SIS、REDS） | 破产预警、GCor-SIS 论文 | 31,616 维交互空间中把候选压到 5,218，再压到 16；论文侧给出 FDR ≤ α + o(1) 的理论保证 |
+| **惩罚回归**（SCAD、LASSO） | 破产预警、房产回归 | 前者做代价敏感稀疏选择（16 个非零特征），后者做变量筛选对照 |
+| **样条展开 × 张量积** | 破产预警 | 把 94 个财务指标显式展开成交互空间，让非线性与模块间交互可被逐条解释 |
+| **生存分析 / 无模型筛选** | GCor-SIS 论文 | 重尾（Cauchy、t(3)）与截尾（30% / 50%）下 Pearson 相关失效的问题；NKI295 上 C-index 0.7603 |
+| **双重机器学习 / 因果森林** | DML | 控制 64 维协变量后估计 ATE，并刻画 CATE 异质性；安慰剂与敏感性分析 |
+| **多重比较校正 + 效应量**（BH、Cramér's V） | 电商漏斗 | 8 个维度卡方检验全部显著，校正后只有活跃度具备实质关联——避免把大样本的显著性当成业务结论 |
+| **抽样设计**（PPS 不等概率） | 市场调查 | 广深 2 城 21 街道的样本分配与加权 |
+| **加权聚类 + SEM** | 市场调查 | 9 个变量加权后划出三类人群（13.19% / 56.35% / 30.46%），SEM 解释方差 68.7% |
+| **回归诊断 / 决策理论** | 房产回归、破产预警 | 条件数与 VIF 诊断（多项式模型条件数 1.11 × 10¹² 被否）；把贝叶斯决策翻译成 30.5 : 1 成本比下的净利润 |
+| **深度模型 × 传统基线对照** | THUCNews、影评 | 修正基线分词后差距从 59 pp 缩到 2.10 pp；四模型 5 折交叉验证暴露出训练 / 验证 0.96 vs 0.63 的过拟合 |
+
+**一处自查**：破产预警的 MDS 筛选脚本里 `sample()` 没有前置 `set.seed()`，所以那一步的 20 次数据拆分不可复现——这一点写在仓库 README 的已知限制里。我选择写出它，而不是在技术栈里含糊带过。
+
+**诚实标注的空白**：尚无实习经历；Docker / 服务部署、API 与 RAG / Agent 工作流、A/B 实验设计、SQL 留存与漏斗自连接取数尚未实操——这些都不在上面两张表里，正在补。
 
 ---
 
