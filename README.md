@@ -90,8 +90,8 @@ I'm a statistics student passionate about uncovering patterns hidden in data. My
 <a href="https://github.com/Yei1y/THUCNews-NLP">
   <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=Yei1y&repo=THUCNews-NLP&theme=algolia&hide_border=true&title_color=4DBBD5&icon_color=F39B7F&bg_color=ffffff" />
 </a>
-<a href="https://github.com/Yei1y/26tjjm">
-  <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=Yei1y&repo=26tjjm&theme=algolia&hide_border=true&title_color=4DBBD5&icon_color=F39B7F&bg_color=ffffff" />
+<a href="https://github.com/Yei1y/Company-Bankruptcy-Prediction">
+  <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=Yei1y&repo=Company-Bankruptcy-Prediction&theme=algolia&hide_border=true&title_color=4DBBD5&icon_color=F39B7F&bg_color=ffffff" />
 </a>
 
 </div>
